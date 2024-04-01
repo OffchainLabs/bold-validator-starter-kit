@@ -52,7 +52,7 @@ fi
 # Stop all running containers before deleting volumes
 docker-compose down
 
-docker volume rm $(docker volume ls -q | grep "${VALIDATOR_DIR}") 2>/dev/null
+# docker volume rm $(docker volume ls -q | grep "${VALIDATOR_DIR}") 2>/dev/null
 
 # Start up the services with docker-compose
 echo "Validator ($VALIDATOR_DIR) is now starting."
