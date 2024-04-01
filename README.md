@@ -30,12 +30,11 @@ docker pull ghcr.io/rauljordan/nitro:bold && docker pull ghcr.io/rauljordan/bold
 ```
 
 ## Step 4: Fund your validator 
-Next, fund your validator with the stake token needed on Sepolia (the stake token is set to Sepolia ETH by default). If you are running a node on your localhost, make sure your `SEPOLIA_ENDPOINT` environment variable is set to: `http://host.docker.internal:<PORT>` where <PORT> is the port where its http server is running. By default, this is 8545.
+Next, fund your validator with the stake token needed on Sepolia (the stake token is an ERC20). If you are running a node on your localhost, make sure your `SEPOLIA_ENDPOINT` environment variable is set to: `http://host.docker.internal:<PORT>` where <PORT> is the port where its http server is running. By default, this is 8545.
 ```
 ./mint_stake_token.sh --private-key $PRIVATE_KEY --eth-rpc-endpoint $SEPOLIA_ENDPOINT
 ```
-
-By running this command, the validator will be granted approval to spend the Sepolia ETH from the account controlled by the private key you provided. This will allow the validator to stake on assertions and open challenges to assertions it observes (and disagrees with).
+By running this command, the ERC20 staking token will be minted using the Sepolia ETH. This will allow the validator to stake on assertions and open challenges to assertions it observes (and disagrees with).
 
 Note: You may use the same private key to fund the honest and evil validator. However, if you plan to run 2 validators simultaneously, it is recommended that you use 2 different private keys.
 
@@ -87,6 +86,7 @@ Arbitrum BOLD is currently in `alpha` and is still being actively developed on. 
 * `No available batch to post as assertion, waiting for more batches` - because validators will try to post an assertion every hour, there may be times where there is not enough batches to post an assertion. This could be because of a variety of reasons, such as low txn volume. The retry logic will ensure that eventually an assertion gets posted successfully once there are enough batches to do so.
 * `error opening parent chain wallet        path=/home/user/.arbitrum/local/wallet account= err="invalid hex character 'x' in private key"` - this log line will get printed if the private key you provide contains the `0x` prefix. Please remove the `0x` prefix before supplying the `validator.sh` script with the key!
 * `err="invalid block range params"` - this can be resolved by wiping the validator database (instructions below)
+* `err="execution reverted: ERC20: insufficient allowance"` or `error="could not create assertion: test execution of tx errored before sending payable tx: execution reverted: ERC20: insufficient allowance"` - this happens when your validator has exhausted the entire supply of the ERC20 staking token minted when you ran `./mint_stake_token.sh`. Simply re-run the same command to mint more staking tokens
 
 **How to wipe the validator database**
 
