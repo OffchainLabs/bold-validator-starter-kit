@@ -13,7 +13,7 @@ The validator that gets deployed will be validating transactions on the public B
 
 ## Step 2: Define environment variables
 The following environment variables are required to run the commands below:
-- `SEPOLIA_ENDPOINT`: An Ethereum node RPC endpoint for running your validator. **If running a node on localhost on MacOS, this must be set to `ws://host.docker.internal:$PORT` or `http://host.docker.internal:$PORT` for http**
+- `SEPOLIA_ENDPOINT`: An Ethereum node RPC endpoint for running your validator. **If running a node on localhost on MacOS, this must be set to `http://host.docker.internal:$PORT`**
 - `HONEST_PRIVATE_KEY` and/or `EVIL_PRIVATE_KEY`: an Ethereum private key **without a 0x prefix** as a hex string. For example, if your private key is `0xabc123`, please use `abc123`.
     - Note: You may use the same private key for either of these variables if you are only running 1 validator. If you plan to run 2 validators simultaneously, it is recommended that you use 2 different private keys.
 
@@ -30,7 +30,7 @@ docker pull ghcr.io/rauljordan/nitro:bold && docker pull ghcr.io/rauljordan/bold
 ```
 
 ## Step 4: Fund your validator 
-Next, mint and fund your validator with the stake token on Sepolia (the stake token is an ERC20). If you are running a node on your localhost, make sure your `SEPOLIA_ENDPOINT` environment variable is set to: `http://host.docker.internal:<PORT>` where <PORT> is the port where its http server is running. By default, this is 8545.
+Next, mint and fund your validator with the stake token on Sepolia (the stake token is an ERC20). If you are running a node on your localhost, make sure your `SEPOLIA_ENDPOINT` environment variable is set to: `http://host.docker.internal:<PORT>` where `<PORT>` is the port where its http server is running. By default, this is 8545.
 ```
 ./mint_stake_token.sh --private-key $PRIVATE_KEY --eth-rpc-endpoint $SEPOLIA_ENDPOINT
 ```
@@ -39,7 +39,7 @@ By running this command, the ERC20 staking token will be minted using the Sepoli
 Note: You may use the same private key to fund the honest and evil validator. However, if you plan to run 2 validators simultaneously, it is recommended that you use 2 different private keys.
 
 ## Step 5: Run your validator
-You can choose to run either an honest or an evil BOLD validator, or both. If you are running a node on your localhost, make sure your `SEPOLIA_ENDPOINT` environment variable is set to: `http://host.docker.internal:<PORT>` where <PORT> is the port where its http server is running. By default, this is 8545.
+You can choose to run either an honest or an evil BOLD validator, or both. If you are running a node on your localhost, make sure your `SEPOLIA_ENDPOINT` environment variable is set to: `http://host.docker.internal:<PORT>` where `<PORT>` is the port where its http server is running. By default, this is 8545.
 
 Note: that the RPC port for the honest validator is `8247` while the RPC port for the evil validator is `8947`.
 
@@ -61,10 +61,10 @@ Congratulations! You've now funded and started a BOLD validator. At first, there
 By default, evil validators will intercept all Arbitrum deposit transactions to the inbox that have a value of 7,777,777 gwei, or 0.0078 ETH. To modify the amount to intercept, change **all instances** of `evil-intercept-deposit-gwei` in your `evil-validator/evil_validator_config.json` to a different amount of gwei. If you want to bridge some ETH to the inbox with a value that will be intercepted, you can run:
 
 ```
-./bridge_eth.sh --gwei-to-deposit 10000000 --private-key $EVIL_PRIVATE_KEY --eth-rpc-endpoint $SEPOLIA_ENDPOINT
+./bridge_eth.sh --gwei-to-deposit 7777777 --private-key $EVIL_PRIVATE_KEY --eth-rpc-endpoint $SEPOLIA_ENDPOINT
 ```
 
-The above will send an ETH deposit to the Arbitrum inbox contract of 10M gwei, which is the default value the evil validator is configured to maliciously tweak.
+The above will send an ETH deposit to the Arbitrum inbox contract of 7,777,777 gwei, which is the default value the evil validator is configured to maliciously tweak.
 
 #### Key log lines
 Below are a few log lines that can help you follow along with any on-going challenges:
@@ -90,9 +90,9 @@ Arbitrum BOLD is currently in `alpha` and is still being actively developed on. 
 * `err="invalid block range params"` - this can be resolved by wiping the validator database (instructions below)
 * `err="execution reverted: ERC20: insufficient allowance"` or `error="could not create assertion: test execution of tx errored before sending payable tx: execution reverted: ERC20: insufficient allowance"` - this happens when your validator has exhausted the entire supply of the ERC20 staking token minted when you ran `./mint_stake_token.sh`. Simply re-run the same command to mint more staking tokens
 
-**How to wipe the validator database**
+### How to wipe the validator database
 
-If the node db gets corrupted for some reason (bad shutdown, for example) or if a situation arises that requires people to resync, you may need to wipe the node's database. To do so, use the below commands (depending on the type of validator you're running):
+If the node db gets corrupted for some reason (bad shutdown, for example), you may need to wipe the node's database. To do so, use the below commands (depending on the type of validator you're running):
 ```
 docker volume rm $(docker volume ls -q | grep "honest-validator") 2>/dev/null
 docker volume rm $(docker volume ls -q | grep "evil-validator") 2>/dev/null
