@@ -7,7 +7,7 @@ The validator that gets deployed will be validating transactions on the public B
 ## Step 1: Prepare pre-requisites
 - Install and start [Docker](https://docs.docker.com/engine/install/) locally and ensure you have Docker Compose (you can verify this by running `docker compose version` which should return the version of Docker Compose you are running)
 - Download and install [Jq](https://jqlang.github.io/jq/download/)
-- An **Ethereum Sepolia** testnet account with funds. We recommend at least 100 Sepolia ETH. Testnet faucets are available online, such as Alchemy's [here](https://sepoliafaucet.com/)
+- An **Ethereum Sepolia** testnet account with at least 100 Sepolia ETH to stake on assertions, and therefore, open challenges. 
 - An RPC connection to Ethereum Sepolia. We recommend using your own Ethereum Sepolia node to avoid potential rate limits imposed by 3rd party providers
 - Ensure your machine has, at minimum, 8 GB of RAM and 4 CPU cores (if using AWS, we recommend a `t3 xLarge`)
 
@@ -32,7 +32,7 @@ docker pull ghcr.io/rauljordan/nitro:bold && docker pull ghcr.io/rauljordan/bold
 ## Step 4: Fund your validator 
 Next, mint and fund your validator with the stake token on Sepolia (the stake token is an ERC20). If you are running a node on your localhost, make sure your `SEPOLIA_ENDPOINT` environment variable is set to: `http://host.docker.internal:<PORT>` where `<PORT>` is the port where its http server is running. By default, this is 8545.
 ```
-./mint_stake_token.sh --private-key ($HONEST_PRIV_KEY|$EVIL_PRIV_KEY) --eth-rpc-endpoint $SEPOLIA_ENDPOINT
+./mint_stake_token.sh --private-key $PRIVATE_KEY --eth-rpc-endpoint $SEPOLIA_ENDPOINT
 ```
 By running this command, the ERC20 staking token will be minted using the Sepolia ETH. This will allow the validator to stake on assertions and open challenges to assertions it observes (and disagrees with).
 
@@ -40,8 +40,6 @@ Note: You may use the same private key to fund the honest and evil validator. Ho
 
 ## Step 5: Run your validator
 You can choose to run either an honest or an evil BOLD validator, or both. If you are running a node on your localhost, make sure your `SEPOLIA_ENDPOINT` environment variable is set to: `http://host.docker.internal:<PORT>` where `<PORT>` is the port where its http server is running. By default, this is 8545.
-
-Note: that the RPC port for the honest validator is `8247` while the RPC port for the evil validator is `8947`.
 
 ### Honest Validator
 To start your validator, run:
@@ -66,7 +64,7 @@ By default, evil validators will intercept all Arbitrum deposit transactions to 
 
 The above will send an ETH deposit to the Arbitrum inbox contract of 7,777,777 gwei, which is the default value the evil validator is configured to maliciously tweak.
 
-#### Key log lines
+## Key log lines
 Below are a few log lines that can help you follow along with any on-going challenges:
 * `"Posting assertion for batch we agree with"` - posting of a state assertion that your node believes to be correct
 * `"Disagreed with an observed assertion onchain"` - your validator has arrived at a state that is different from one that was asserted by another party on-chain
@@ -78,8 +76,8 @@ Below are a few log lines that can help you follow along with any on-going chall
 * `"Assertion with hash 0xf9be2a92 needs at least 50150 blocks before being confirmable, waiting for 167h10m0s"` - this log line indicates that a given assertion will be confirmed automatically via time if there are no challenges open against it
 * `"Observed an honest challenge edge created onchain, now tracking it locally"` - this log line gets printed when your validator observes a challenge edge that it agrees on - no challenge will be opened since it agrees on the asserted state made by the other party.
 
-#### Troubleshooting and what some log lines mean:
-There may be periods of time where there are no logs being printed when running an honest validator. This is normal and totally fine because it means that there are no invalid state assertions observed, and therefore, no on-going challenges. 
+## Troubleshooting and what some log lines mean:
+There may be periods of time where there are no logs being printed when running an honest validator. This is normal and totally fine because it means that there are no invalid state assertions observed, and therefore, no on-going challenges. If useful, the RPC port for the honest validator is `8247` while the RPC port for the evil validator is `8947`.
 
 Arbitrum BOLD is currently in `alpha` and is still being actively developed on. As such, below are the explanation behind a few errors and log lines that may arise during testing. Many of the log lines below are expected and indicate healthy, expected behavior of your BOLD validator.
 * `Could not succeed function after retries package=retry retryCount=1 err="chain catching up` - This is expected when first starting up your validator. As mentioned earlier, this log line simply indicates that the validator is not yet fully synced up with the latest state of the testnet. This should eventually disappear after some time (~5 minutes or sooner)
@@ -87,7 +85,7 @@ Arbitrum BOLD is currently in `alpha` and is still being actively developed on. 
 * `InboxTracker` - posted at regular intervals, this log line is simply printing some metadata about the current state
 * `No available batch to post as assertion, waiting for more batches` - because validators will try to post an assertion every hour, there may be times where there is not enough batches to post an assertion. This could be because of a variety of reasons, such as low txn volume. The retry logic will ensure that eventually an assertion gets posted successfully once there are enough batches to do so.
 * `error opening parent chain wallet        path=/home/user/.arbitrum/local/wallet account= err="invalid hex character 'x' in private key"` - this log line will get printed if the private key you provide contains the `0x` prefix. Please remove the `0x` prefix before supplying the `validator.sh` script with the key!
-* `err="invalid block range params"` - this can be resolved by wiping the validator database (instructions below)
+* `err="invalid block range params"` or `err="unsupported block number"` - this can be resolved by wiping the validator database (instructions below)
 * `err="execution reverted: ERC20: insufficient allowance"` or `error="could not create assertion: test execution of tx errored before sending payable tx: execution reverted: ERC20: insufficient allowance"` - this happens when your validator has exhausted the entire supply of the ERC20 staking token minted when you ran `./mint_stake_token.sh`. Simply re-run the same command to mint more staking tokens
 
 ### How to wipe the validator database
