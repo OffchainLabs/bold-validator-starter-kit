@@ -64,7 +64,9 @@ By default, evil validators will intercept all Arbitrum deposit transactions to 
 
 The above will send an ETH deposit to the Arbitrum inbox contract of 7,777,777 gwei, which is the default value the evil validator is configured to maliciously tweak.
 
-## Key log lines
+## Interpreting key log lines
+Note that when running a validator, the use of the term `evil` and `honest` in the logs are _relative_ to your validator node. In other words, your validator will always consider assertions that it agrees with to be `honest` assertions. Likewise, any assertion that your validator node disagrees with is considered `evil`. 
+
 Below are a few log lines that can help you follow along with any on-going challenges:
 * `"Posting assertion for batch we agree with"` - posting of a state assertion that your node believes to be correct
 * `"Disagreed with an observed assertion onchain"` - your validator has arrived at a state that is different from one that was asserted by another party on-chain
