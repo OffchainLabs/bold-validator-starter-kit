@@ -32,7 +32,7 @@ docker pull ghcr.io/rauljordan/nitro:bold && docker pull ghcr.io/rauljordan/bold
 ## Step 4: Fund your validator 
 Next, mint and fund your validator with the stake token on Sepolia (the stake token is an ERC20). If you are running a node on your localhost, make sure your `SEPOLIA_ENDPOINT` environment variable is set to: `http://host.docker.internal:<PORT>` where `<PORT>` is the port where its http server is running. By default, this is 8545.
 ```
-./mint_stake_token.sh --private-key $PRIVATE_KEY --eth-rpc-endpoint $SEPOLIA_ENDPOINT
+./mint_stake_token.sh --private-key ($HONEST_PRIV_KEY|$EVIL_PRIV_KEY) --eth-rpc-endpoint $SEPOLIA_ENDPOINT
 ```
 By running this command, the ERC20 staking token will be minted using the Sepolia ETH. This will allow the validator to stake on assertions and open challenges to assertions it observes (and disagrees with).
 
