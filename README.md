@@ -1,6 +1,6 @@
 # Arbitrum BOLD Validator Starter Kit
 
-This repository is for those in the community who wish to run a BOLD validator on the public testnet to see BOLD in action. Make sure to also checkout the [BOLD testnet status page](https://status-bold.vercel.app/) to see the number of on-going challenges and validators on the network! In this repository, you will find two Docker Compose files for spinning up a BOLD validator for Arbitrum chains, in two different modes: honest and evil. 
+This repository is for those in the community who wish to run a BOLD validator on the public testnet to see BOLD in action. Make sure to also check out the [BOLD testnet status page](https://status-bold.vercel.app/) to see the number of on-going challenges and validators on the network! In this repository, you will find two Docker Compose files for spinning up a BOLD validator for Arbitrum chains, in two different modes: honest and evil. 
 
 The validator that gets deployed will be validating transactions on the public BOLD testnet and will: post to, monitor for, and challenge invalid state assertions on Ethereum Sepolia. In other words, this BOLD testnet is an L2. To simulate traffic on the testnet, a transaction spammer (1 txn/10s) is used. 
 
