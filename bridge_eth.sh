@@ -3,7 +3,7 @@
 
 SEPOLIA_ENDPOINT=""
 PRIV_KEY=""
-GWEI_TO_DEPOSIT=""
+WEI_TO_DEPOSIT=""
 
 # Parsing command line arguments
 while [[ $# -gt 0 ]]; do
@@ -20,8 +20,8 @@ while [[ $# -gt 0 ]]; do
         shift # past argument
         shift # past value
         ;;
-        --gwei-to-deposit)
-        GWEI_TO_DEPOSIT="$2"
+        --wei-to-deposit)
+        WEI_TO_DEPOSIT="$2"
         shift # past argument
         shift # past value
         ;;
@@ -32,8 +32,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Check if the required arguments are set
-if [ -z "$SEPOLIA_ENDPOINT" ] || [ -z "$PRIV_KEY" ] || [ -z "$GWEI_TO_DEPOSIT" ]; then
-    echo "Missing required arguments. Usage: $0 --eth-rpc-endpoint SEPOLIA_ENDPOINT --private-key PRIV_KEY --gwei-to-deposit GWEI_TO_DEPOSIT"
+if [ -z "$SEPOLIA_ENDPOINT" ] || [ -z "$PRIV_KEY" ] || [ -z "$WEI_TO_DEPOSIT" ]; then
+    echo "Missing required arguments. Usage: $0 --eth-rpc-endpoint SEPOLIA_ENDPOINT --private-key PRIV_KEY --wei-to-deposit WEI_TO_DEPOSIT"
     exit 1
 fi
 
@@ -42,11 +42,11 @@ JSON_FILE="honest-validator/l2_chain_info.json"
 # Extracting the rollup, stake token, and inbox addresses using jq
 INBOX_ADDR=$(jq -r '.[0].rollup."inbox"' $JSON_FILE)
 
-docker pull ghcr.io/rauljordan/bold-utils:latest
+docker pull ghcr.io/rauljordan/bold-utils:testnet-candidate
 
 # Running the Docker command
-docker run --network=host ghcr.io/rauljordan/bold-utils:latest bridge-eth \
+docker run --network=host ghcr.io/rauljordan/bold-utils:testnet-candidate bridge-eth \
  --validator-priv-keys=$PRIV_KEY \
  --l1-endpoint=$SEPOLIA_ENDPOINT \
  --inbox-address=$INBOX_ADDR \
- --gwei-to-deposit=$GWEI_TO_DEPOSIT
+ --wei-to-deposit=$WEI_TO_DEPOSIT
