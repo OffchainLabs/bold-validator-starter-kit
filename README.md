@@ -7,7 +7,7 @@ The validator that gets deployed will be validating transactions on the public B
 ## Step 1: Prepare pre-requisites
 - Install and start [Docker](https://docs.docker.com/engine/install/) locally and ensure you have Docker Compose (you can verify this by running `docker compose version` which should return the version of Docker Compose you are running)
 - Download and install [Jq](https://jqlang.github.io/jq/download/)
-- An **Ethereum Sepolia** testnet account with at least 100 Sepolia ETH to stake on assertions, and therefore, open challenges. 
+- An **Ethereum Sepolia** testnet account with at least 150 Sepolia ETH to stake on assertions, and also open challenges. The base stake to become an assertion poster is 100 Sepolia ETH.
 - An RPC connection to Ethereum Sepolia. We recommend using your own Ethereum Sepolia node to avoid potential rate limits imposed by 3rd party providers
 - Ensure your machine has, at minimum, 8 GB of RAM and 4 CPU cores (if using AWS, we recommend a `t3 xLarge`)
 
@@ -54,15 +54,6 @@ To start your validator, but in evil mode, simply run the same command as above 
 ```
 
 Congratulations! You've now funded and started a BOLD validator. At first, there may be some `ERROR` log lines. Rest assured that this is expected at first as it takes some time (~5 minutes) for the node to catch up with the chain's latest state. This means that the node will attempt to post assertions and challenge observed assertions that it does not agree with, but will fail to do so until the node is synced up. You will know the node is synced up when you see log lines that contain messages such as: `"Successfully submitted assertion"`.
-
-## How Evil Validators Work
-By default, evil validators will intercept all Arbitrum deposit transactions to the inbox that have a value of 7,777,777 gwei, or 0.0078 ETH. To modify the amount to intercept, change **all instances** of `evil-intercept-deposit-gwei` in your `evil-validator/evil_validator_config.json` to a different amount of gwei. If you want to bridge some ETH to the inbox with a value that will be intercepted, you can run:
-
-```
-./bridge_eth.sh --gwei-to-deposit 7777777 --private-key $EVIL_PRIVATE_KEY --eth-rpc-endpoint $SEPOLIA_ENDPOINT
-```
-
-The above will send an ETH deposit to the Arbitrum inbox contract of 7,777,777 gwei, which is the default value the evil validator is configured to maliciously tweak.
 
 ## Interpreting key log lines
 Note that when running a validator, the use of the term `evil` and `honest` in the logs are _relative_ to your validator node. In other words, your validator will always consider assertions that it agrees with to be `honest` assertions. Likewise, any assertion that your validator node disagrees with is considered `evil`. 
