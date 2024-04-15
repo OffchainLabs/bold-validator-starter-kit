@@ -6,6 +6,7 @@ The validator that gets deployed will be validating transactions on the public B
 
 ## Links
 
+- [BOLD Gentle Introduction](https://docs.arbitrum.io/bold/bold-gentle-introduction)
 - [Arbitrum Nitro](https://github.com/OffchainLabs/nitro)
 - [BOLD Repository](https://github.com/OffchainLabs/bold)
 
