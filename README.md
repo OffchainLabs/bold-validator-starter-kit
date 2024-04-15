@@ -4,6 +4,19 @@ This repository is for those in the community who wish to run a BOLD validator o
 
 The validator that gets deployed will be validating transactions on the public BOLD testnet and will: post to, monitor for, and challenge invalid state assertions on Ethereum Sepolia. In other words, this BOLD testnet is an L2. To simulate traffic on the testnet, a transaction spammer (1 txn/10s) is used. 
 
+## Links
+
+- [Arbitrum Nitro](https://github.com/OffchainLabs/nitro)
+- [BOLD Repository](https://github.com/OffchainLabs/bold)
+
+The BOLD testnet is an L2 that uses Ethereum Sepolia as its parent chain. The L2 chain config can be found under [here](honest-validator/l2_chain_info.json)
+
+BOLD Testnet URLs:
+
+- Block explorer [https://bold-explorer.arbitrum.io/](https://bold-explorer.arbitrum.io/)
+- Sequencer RPC [https://bold.arbitrum.io/rpc](https://bold.arbitrum.io/rpc)
+- Sequencer Feed [wss://bold.arbitrum.io/feed](wss://bold.arbitrum.io/feed)
+
 ## Step 1: Prepare pre-requisites
 - Install and start [Docker](https://docs.docker.com/engine/install/) locally 
 - If on Linux, follow the [post-install documentation](https://docs.docker.com/engine/install/linux-postinstall/) for docker to allow you to run docker as a non-root user
