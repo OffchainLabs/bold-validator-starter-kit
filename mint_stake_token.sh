@@ -49,5 +49,6 @@ docker run --network=host ghcr.io/rauljordan/bold-utils:testnet-candidate mint-s
  --validator-priv-keys=$PRIV_KEY \
  --l1-endpoint=$SEPOLIA_ENDPOINT \
  --rollup-address=$ROLLUP_ADDR \
+ --wei-to-mint=150000000000000000000 \
  --stake-token-address=$STAKE_TOKEN_ADDR \
  --bump-price-percent=${BUMP_PRICE_PERCENT:-100}

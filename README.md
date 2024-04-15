@@ -5,16 +5,18 @@ This repository is for those in the community who wish to run a BOLD validator o
 The validator that gets deployed will be validating transactions on the public BOLD testnet and will: post to, monitor for, and challenge invalid state assertions on Ethereum Sepolia. In other words, this BOLD testnet is an L2. To simulate traffic on the testnet, a transaction spammer (1 txn/10s) is used. 
 
 ## Step 1: Prepare pre-requisites
-- Install and start [Docker](https://docs.docker.com/engine/install/) locally and ensure you have Docker Compose (you can verify this by running `docker compose version` which should return the version of Docker Compose you are running)
-- Download and install [Jq](https://jqlang.github.io/jq/download/)
-- An **Ethereum Sepolia** testnet account with at least 150 Sepolia ETH to stake on assertions, and also open challenges. The base stake to become an assertion poster is 100 Sepolia ETH.
-- An RPC connection to Ethereum Sepolia. We recommend using your own Ethereum Sepolia node to avoid potential rate limits imposed by 3rd party providers
+- Install and start [Docker](https://docs.docker.com/engine/install/) locally 
+- If on Linux, follow the [post-install documentation](https://docs.docker.com/engine/install/linux-postinstall/) for docker to allow you to run docker as a non-root user
+- Install [docker compose standalone](https://docs.docker.com/compose/install/standalone/) and verify it is installed (you can verify this by running `docker compose version` which should return the version of Docker Compose you are running). You may need to give executable permissions to it `chmod +x /usr/bin/docker-compose` if running on Linux
+- Install [Jq](https://jqlang.github.io/jq/download/)
+- An **Ethereum Sepolia** testnet account with at least 150 Sepolia ETH to stake on assertions, and also open challenges. The base stake to become an assertion poster is 100 Sepolia ETH on this testnet. If you are looking to run a BOLD validator, we'd love to hear from you on the [Arbitrum Discord](https://discord.gg/arbitrum)
+- An RPC connection to Ethereum Sepolia. You must run own Ethereum Sepolia node to avoid potential rate limits imposed by 3rd party providers
 - Ensure your machine has, at minimum, 8 GB of RAM and 4 CPU cores (if using AWS, we recommend a `t3 xLarge`)
 
 ## Step 2: Define environment variables
 The following environment variables are required to run the commands below:
 - `SEPOLIA_ENDPOINT`: An Ethereum node RPC endpoint for running your validator. **If running a node on localhost on MacOS, this must be set to `http://host.docker.internal:$PORT`**
-- `HONEST_PRIVATE_KEY` and/or `EVIL_PRIVATE_KEY`: an Ethereum private key **without a 0x prefix** as a hex string. For example, if your private key is `0xabc123`, please use `abc123`.
+- `HONEST_PRIVATE_KEY` or `EVIL_PRIVATE_KEY`: an Ethereum private key **without a 0x prefix** as a hex string. For example, if your private key is `0xabc123`, please use `abc123`.
     - Note: You may use the same private key for either of these variables if you are only running 1 validator. If you plan to run 2 validators simultaneously, it is recommended that you use 2 different private keys.
 
 ## Step 3: Clone the repository & pull Docker images
@@ -29,6 +31,24 @@ Next, pull the Docker images down:
 docker pull ghcr.io/rauljordan/nitro:bold && docker pull ghcr.io/rauljordan/bold-utils:latest
 ```
 
+**Or build the Docker image yourself**
+
+You can also build the Docker image from source
+
+```
+git pull https://github.com/OffchainLabs/nitro && cd nitro
+git checkout sepolia-tooling-merge
+git submodule update --init --recursive --force
+```
+
+Then
+```
+docker build /home/ultrainstinct/Desktop/nitro -t nitro-node-dev --target nitro-node-dev && docker tag nitro-node-dev:latest nitro-node-dev-testnode
+```
+
+Then you can use this image under `honest-validator/docker-compose.yml` or `evil-validator/docker-compose.yml`
+
+
 ## Step 4: Fund your validator 
 Next, mint and fund your validator with the stake token on Sepolia (the stake token is an ERC20). If you are running a node on your localhost, make sure your `SEPOLIA_ENDPOINT` environment variable is set to: `http://host.docker.internal:<PORT>` where `<PORT>` is the port where its http server is running. By default, this is 8545.
 ```
@@ -36,7 +56,8 @@ Next, mint and fund your validator with the stake token on Sepolia (the stake to
 ```
 By running this command, the ERC20 staking token will be minted using the Sepolia ETH. This will allow the validator to stake on assertions and open challenges to assertions it observes (and disagrees with).
 
-Note: You may use the same private key to fund the honest and evil validator. However, if you plan to run 2 validators simultaneously, it is recommended that you use 2 different private keys.
+100 Sepolia WETH is required to become an assertion poster on the testnet, and opening and resolving a single challenge claim by an adversary would cost around 50 Sepolia WETH.
+
 
 ## Step 5: Run your validator
 You can choose to run either an honest or an evil BOLD validator, or both. If you are running a node on your localhost, make sure your `SEPOLIA_ENDPOINT` environment variable is set to: `http://host.docker.internal:<PORT>` where `<PORT>` is the port where its http server is running. By default, this is 8545.
@@ -47,13 +68,13 @@ To start your validator, run:
 ./validator.sh --private-key $HONEST_PRIVATE_KEY --eth-rpc-endpoint $SEPOLIA_ENDPOINT
 ```
 
-### Evil Validator
+### Or Run an Evil Validator
 To start your validator, but in evil mode, simply run the same command as above but with the `--evil` flag:
 ```
 ./validator.sh --evil --private-key $EVIL_PRIVATE_KEY --eth-rpc-endpoint $SEPOLIA_ENDPOINT
 ```
 
-Congratulations! You've now funded and started a BOLD validator. At first, there may be some `ERROR` log lines. Rest assured that this is expected at first as it takes some time (~5 minutes) for the node to catch up with the chain's latest state. This means that the node will attempt to post assertions and challenge observed assertions that it does not agree with, but will fail to do so until the node is synced up. You will know the node is synced up when you see log lines that contain messages such as: `"Successfully submitted assertion"`.
+Congratulations! You've now funded and started a BOLD validator. At first, there may be some `ERROR` log lines. Rest assured that this is expected at first as it takes some time for the node to catch up with the chain's latest state. This means that the node will attempt to post assertions and challenge observed assertions that it does not agree with, but will fail to do so until the node is synced up. You will know the node is synced up when you see log lines that contain messages such as: `"Successfully submitted assertion"`.
 
 ## Interpreting key log lines
 Note that when running a validator, the use of the term `evil` and `honest` in the logs are _relative_ to your validator node. In other words, your validator will always consider assertions that it agrees with to be `honest` assertions. Likewise, any assertion that your validator node disagrees with is considered `evil`. 
