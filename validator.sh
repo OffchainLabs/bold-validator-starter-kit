@@ -57,7 +57,7 @@ docker-compose down
 # Start up the services with docker-compose
 echo "Validator ($VALIDATOR_DIR) is now starting."
 
-docker-compose up
+docker-compose up -d && docker-compose logs -f
 
 # Check if docker-compose started correctly
 if [ $? -ne 0 ]; then
