@@ -50,7 +50,7 @@ docker pull ghcr.io/rauljordan/nitro:bold && docker pull ghcr.io/rauljordan/bold
 You can also build the Docker image from source
 
 ```
-git pull https://github.com/OffchainLabs/nitro && cd nitro
+git clone https://github.com/OffchainLabs/nitro && cd nitro
 git checkout sepolia-tooling-merge
 git submodule update --init --recursive --force
 ```
