@@ -122,6 +122,7 @@ Arbitrum BOLD is currently in `alpha` and is still being actively developed on. 
 * `error opening parent chain wallet        path=/home/user/.arbitrum/local/wallet account= err="invalid hex character 'x' in private key"` - this log line will get printed if the private key you provide contains the `0x` prefix. Please remove the `0x` prefix before supplying the `validator.sh` script with the key!
 * `err="invalid block range params"` or `err="unsupported block number"` - this can be resolved by wiping the validator database (instructions below)
 * `err="execution reverted: ERC20: insufficient allowance"` or `error="could not create assertion: test execution of tx errored before sending payable tx: execution reverted: ERC20: insufficient allowance"` - this happens when your validator has exhausted the entire supply of the ERC20 staking token minted when you ran `./mint_stake_token.sh`. Simply re-run the same command to mint more staking tokens
+* `err="execution reverted: PREV_NOT_LATEST_CONFIRMED"` - this is normal, no need to worry, because most of the tx or estimation failed with `PREV_NOT_LATEST_CONFIRMED` is because many validators race to confrim the same rblock while only one can succeed so others will get failed
 
 ### How to wipe the validator database
 
