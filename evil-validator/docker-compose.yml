@@ -2,7 +2,7 @@ version: "3.9"
 services:
   evil_validator:
     pid: host
-    image: ghcr.io/rauljordan/nitro:bold-v2-testnet-deploy-7b4d680
+    image: ghcr.io/rauljordan/nitro:bold-testnet-v2-jul-10
     ports:
       - "127.0.0.1:7357:7575"
       - "127.0.0.1:8947:8947"
@@ -26,7 +26,7 @@ services:
 
   evil_validation_node:
     pid: host
-    image: ghcr.io/rauljordan/nitro:bold-v2-testnet-deploy-7b4d680
+    image: ghcr.io/rauljordan/nitro:bold-testnet-v2-jul-10
     ports:
       - "127.0.0.1:8999:8999"
     volumes:
