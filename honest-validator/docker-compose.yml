@@ -2,7 +2,11 @@ version: "3.9"
 services:
   validator:
     pid: host
+<<<<<<< Updated upstream
     image: ghcr.io/rauljordan/nitro:bold-testnet-may
+=======
+    image: ghcr.io/rauljordan/nitro:bold-v2-testnet-deploy-7b4d680
+>>>>>>> Stashed changes
     ports:
       - "127.0.0.1:7257:7575"
       - "127.0.0.1:8247:8547"
@@ -26,7 +30,11 @@ services:
 
   validation_node:
     pid: host
+<<<<<<< Updated upstream
     image: ghcr.io/rauljordan/nitro:bold-testnet-may
+=======
+    image: ghcr.io/rauljordan/nitro:bold-v2-testnet-deploy-7b4d680
+>>>>>>> Stashed changes
     ports:
       - "127.0.0.1:8949:8549"
     volumes:
