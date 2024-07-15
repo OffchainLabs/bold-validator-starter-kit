@@ -27,11 +27,11 @@
         "without-block-validator": false
       },
       "disable-challenge": false,
-      "enable": false,
+      "enable": true,
       "staker-interval": "10s",
       "make-assertion-interval": "10s",
       "strategy": "MakeNodes",
-      "use-smart-contract-wallet": true,
+      "use-smart-contract-wallet": false,
       "parent-chain-wallet": {
         "private-key": ""
       },
