@@ -50,7 +50,6 @@
         "assertion-posting-interval-seconds": 3600,
         "assertion-scanning-interval-seconds": 60,
         "assertion-confirming-interval-seconds": 60,
-        "edge-tracker-wake-interval-seconds": 300,
         "api-host": "0.0.0.0",
         "api-port": 7575,
         "api-db-path": "/home/user/.arbitrum/local/nitro/apisqlite.db"
