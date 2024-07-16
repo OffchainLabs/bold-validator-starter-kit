@@ -14,9 +14,9 @@ The BOLD testnet is an L2 that uses Ethereum Sepolia as its parent chain. The L2
 
 BOLD Testnet URLs:
 
-- Block explorer [https://bold-explorer.arbitrum.io/](https://bold-explorer.arbitrum.io/)
-- Sequencer RPC [https://bold.arbitrum.io/rpc](https://bold.arbitrum.io/rpc)
-- Sequencer Feed [wss://bold.arbitrum.io/feed](wss://bold.arbitrum.io/feed)
+- Block explorer [https://boldv2-explorer.arbitrum.io/](https://boldv2-explorer.arbitrum.io/)
+- Sequencer RPC [https://boldv2.arbitrum.io/rpc](https://boldv2.arbitrum.io/rpc)
+- Sequencer Feed [wss://boldv2.arbitrum.io/feed](wss://boldv2.arbitrum.io/feed)
 
 ## Step 1: Prepare pre-requisites
 - Install and start [Docker](https://docs.docker.com/engine/install/) locally 
