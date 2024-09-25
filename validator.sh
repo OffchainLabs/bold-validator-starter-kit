@@ -40,7 +40,7 @@ cd "$VALIDATOR_DIR"
 
 # Edit the JSON configuration file
 jq --arg pk "$PRIVATE_KEY" --arg ep "$ETH_RPC_ENDPOINT" \
-   '.node.staker.["parent-chain-wallet"]."private-key" = $pk |
+   '.node.staker["parent-chain-wallet"]."private-key" = $pk |
     .["parent-chain"].connection.url = $ep' "$CONFIG_FILE" > tmp.$$ && mv tmp.$$ "$CONFIG_FILE"
 
 # Verify that the JSON file was edited
