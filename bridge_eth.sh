@@ -42,10 +42,10 @@ JSON_FILE="honest-validator/l2_chain_info.json"
 # Extracting the rollup, stake token, and inbox addresses using jq
 INBOX_ADDR=$(jq -r '.[0].rollup."inbox"' $JSON_FILE)
 
-docker pull ghcr.io/rauljordan/bold-utils:testnet-candidate
+docker pull ghcr.io/rauljordan/bold-utils:testnet-v2
 
 # Running the Docker command
-docker run --network=host ghcr.io/rauljordan/bold-utils:testnet-candidate bridge-eth \
+docker run --network=host ghcr.io/rauljordan/bold-utils:testnet-v2 bridge-eth \
  --validator-priv-keys=$PRIV_KEY \
  --l1-endpoint=$SEPOLIA_ENDPOINT \
  --inbox-address=$INBOX_ADDR \

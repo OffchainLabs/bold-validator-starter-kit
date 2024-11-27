@@ -24,6 +24,25 @@
     "dangerous": {
       "disable-blob-reader": true
     },
+    "bold": {
+      "enable": true,
+      "mode": "make-mode",
+      "block-challenge-leaf-height": 16384,
+      "big-step-leaf-height": 16384,
+      "small-step-leaf-height": 16384,
+      "num-big-steps": 2,
+      "assertion-posting-interval": "1h",
+      "assertion-scanning-interval": "1m",
+      "assertion-confirming-interval": "1m",
+      "api-host": "0.0.0.0",
+      "api-port": 7575,
+      "api-db-path": "/home/user/.arbitrum/local/nitro/apisqlite.db",
+      "state-provider-config": {
+        "validator-name": "evil",
+        "machine-leaves-cache-path": "/home/user/.arbitrum/local/nitro/machine-leaves-cache",
+        "check-batch-finality": true
+      }
+    },
     "staker": {
       "dangerous": {
         "without-block-validator": false
@@ -36,22 +55,6 @@
       "use-smart-contract-wallet": false,
       "parent-chain-wallet": {
         "private-key": ""
-      },
-      "bold": {
-        "enable": true,
-        "mode": "make-mode",
-        "block-challenge-leaf-height": 16384,
-        "big-step-leaf-height": 16384,
-        "small-step-leaf-height": 16384,
-        "num-big-steps": 2,
-        "validator-name": "evil",
-        "machine-leaves-cache-path": "/home/user/.arbitrum/local/nitro/machine-leaves-cache",
-        "assertion-posting-interval-seconds": 3600,
-        "assertion-scanning-interval-seconds": 60,
-        "assertion-confirming-interval-seconds": 60,
-        "api-host": "0.0.0.0",
-        "api-port": 7575,
-        "api-db-path": "/home/user/.arbitrum/local/nitro/apisqlite.db"
       }
     },
     "sequencer": false,

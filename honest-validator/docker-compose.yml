@@ -2,7 +2,7 @@ version: "3.9"
 services:
   validator:
     pid: host
-    image: ghcr.io/rauljordan/nitro:bold-testnet-v2-nov-27
+    image: ghcr.io/rauljordan/nitro:bold-testnet-v2-nov-27-2
     ports:
       - "127.0.0.1:7257:7575"
       - "127.0.0.1:8247:8547"

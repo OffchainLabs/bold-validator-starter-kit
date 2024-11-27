@@ -42,10 +42,10 @@ JSON_FILE="honest-validator/l2_chain_info.json"
 ROLLUP_ADDR=$(jq -r '.[0].rollup.rollup' $JSON_FILE)
 STAKE_TOKEN_ADDR=$(jq -r '.[0].rollup."stake-token"' $JSON_FILE)
 
-docker pull ghcr.io/rauljordan/bold-utils:testnet-candidate
+docker pull ghcr.io/rauljordan/bold-utils:testnet-v2
 
 # Running the Docker command
-docker run --network=host ghcr.io/rauljordan/bold-utils:testnet-candidate mint-stake-token \
+docker run --network=host ghcr.io/rauljordan/bold-utils:testnet-v2 mint-stake-token \
  --validator-priv-keys=$PRIV_KEY \
  --l1-endpoint=$SEPOLIA_ENDPOINT \
  --rollup-address=$ROLLUP_ADDR \
