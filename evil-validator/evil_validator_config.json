@@ -17,7 +17,7 @@
   },
   "execution": {
     "evil": true,
-    "evil-intercept-deposit-gwei": 7777777,
+    "evil-intercept-deposit-gwei": 7777778,
     "forwarding-target": "null"
   },
   "node": {
