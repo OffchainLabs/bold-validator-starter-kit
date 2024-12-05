@@ -26,11 +26,7 @@
     },
     "bold": {
       "enable": true,
-      "mode": "make-mode",
-      "block-challenge-leaf-height": 16384,
-      "big-step-leaf-height": 16384,
-      "small-step-leaf-height": 16384,
-      "num-big-steps": 2,
+      "strategy": "makeNodes",
       "assertion-posting-interval": "1h",
       "assertion-scanning-interval": "1m",
       "assertion-confirming-interval": "1m",
