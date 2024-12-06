@@ -80,7 +80,7 @@
     },
     "block-validator": {
       "evil": true,
-      "evil-intercept-deposit-gwei": 7777777,
+      "evil-intercept-deposit-gwei": 7777778,
       "validation-server": {
         "url": "ws://evil_validation_node:8999",
         "jwtsecret": "/config/val_jwt.hex"
